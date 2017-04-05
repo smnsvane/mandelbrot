@@ -7,16 +7,20 @@ public class Complex implements IsSerializable {
 	/**
 	 * real part of the complex number
 	 */
-	public final float r;
+	public float r;
 	/**
 	 * imaginary part of the complex number
 	 */
-	public final float i;
+	public float i;
 
 	public Complex(float real, float imaginary) {
 		r = real;
 		i = imaginary;
 	}
+
+	// to make GWT-RPC happy
+	@SuppressWarnings("unused")
+	private Complex() {}
 
 	public static Complex addition(Complex c0, Complex c1) {
 		return new Complex(c0.r + c1.r, c0.i + c1.i);

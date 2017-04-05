@@ -7,6 +7,6 @@ import module.shared.FractalProperties;
 
 public interface ColorGridServiceAsync {
 
-	void calculateColorGrid(FractalProperties prop, AsyncCallback<ColorGrid> callback);
+	void calculateColorGrid(int width, int height, FractalProperties prop, AsyncCallback<ColorGrid> callback);
 
 }

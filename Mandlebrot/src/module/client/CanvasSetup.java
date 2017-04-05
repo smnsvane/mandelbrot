@@ -6,11 +6,16 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import module.shared.ColorGrid;
-import module.shared.Mandelbrot;
+import module.shared.Engine;
+import module.shared.FractalProperties;
 import module.shared.color.Color;
 
 public class CanvasSetup implements EntryPoint {
@@ -19,6 +24,14 @@ public class CanvasSetup implements EntryPoint {
 
 	public final static int CANVAS_WIDTH_IN_PX = 1000; // width of the HTML5 Canvas
 	public final static int CANVAS_HEIGHT_IN_PX = 700; // height of the HTML5 Canvas
+
+	private Canvas canvas; // the canvas
+
+	/**
+	 * whenever the fractal calculation is done on client or server side
+	 */
+	public final boolean serverSideCalc = true;
+	public final ColorGridServiceAsync colorGridService = GWT.create(ColorGridService.class);
 
 	// performance optimization (see drawPixel method)
 	public final boolean fastPixelDraw = true;
@@ -29,7 +42,7 @@ public class CanvasSetup implements EntryPoint {
 		// GWT boilerplate and HTML5 Canvas
 		RootPanel root = RootPanel.get("main");
 		// Verify browser have HTML5 Canvas support
-		Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		if (canvas == null) {
 			root.add(new Label("Your browser do not support HTML5 Canvas"));
 			return;
@@ -38,20 +51,38 @@ public class CanvasSetup implements EntryPoint {
 		canvas.setHeight(CANVAS_HEIGHT_IN_PX+"px");
 		canvas.setCoordinateSpaceWidth(CANVAS_WIDTH_IN_PX);
 		canvas.setCoordinateSpaceHeight(CANVAS_HEIGHT_IN_PX);
-		root.add(canvas);
+
+		// layout setup
+		VerticalPanel vPanel = new VerticalPanel();
+		FlowPanel div = new FlowPanel();
+		Button classicMandelbrotButton = new Button("Classic Mandelbrot",
+				new FractalButtonClick(this, FractalProperties.classicMandelbrot()));
+		Button seahorseVallyButton = new Button("Seahorse Vally",
+				new FractalButtonClick(this, FractalProperties.seahorseVally()));
+
+		// layout assembly
+		div.add(classicMandelbrotButton);
+		div.add(seahorseVallyButton);
+		vPanel.add(div);
+		vPanel.add(canvas);
+		root.add(vPanel);
+	}
+
+	public ColorGrid clientCalculateFractal(FractalProperties prop) {
 
 		long start = System.currentTimeMillis();
-
-		ColorGrid colorGrid = new Mandelbrot().calculateFractal(CANVAS_WIDTH_IN_PX, CANVAS_HEIGHT_IN_PX);
-
+		ColorGrid colorGrid = new Engine().calculateFractal(CANVAS_WIDTH_IN_PX, CANVAS_HEIGHT_IN_PX, prop);
 		long end = System.currentTimeMillis();
-		logger.info("benchmark on fractal calc time (millisec): "+(end-start));
+		logger.info("benchmark on client fractal calc time (millisec): "+(end-start));
+		return colorGrid;
+	}
 
-		start = System.currentTimeMillis();
+	public void drawFractal(ColorGrid colorGrid) {
 
+		long start = System.currentTimeMillis();
 		Context2d ctx = canvas.getContext2d();
 		canvasImageData = ctx.getImageData(0, 0, CanvasSetup.CANVAS_WIDTH_IN_PX, CanvasSetup.CANVAS_HEIGHT_IN_PX);
-		
+
 		for (int x = 0; x < CANVAS_WIDTH_IN_PX; x++)
 			for (int y = 0; y < CANVAS_HEIGHT_IN_PX; y++)
 				drawPixel(x, y, ctx, colorGrid.grid[x][y]);
@@ -60,7 +91,7 @@ public class CanvasSetup implements EntryPoint {
 		if (fastPixelDraw)
 			ctx.putImageData(canvasImageData, 0, 0);
 
-		end = System.currentTimeMillis();
+		long end = System.currentTimeMillis();
 		logger.info("benchmark on draw time (millisec): "+(end-start));
 	}
 
@@ -74,13 +105,13 @@ public class CanvasSetup implements EntryPoint {
 	private void drawPixel(int x, int y, Context2d ctx, Color color) {
 
 		if (!fastPixelDraw) {
-			
+
 			// the simple pixel draw solution
 			ctx.setFillStyle(color.toCssColor());
 			ctx.fillRect(x, y, 1, 1);
 
 		} else {
-			
+
 			// more complex and faster pixel draw solution,
 			// cuts the drawing time by about a factor five compared to the simple solution
 			// this might be a slower solution than the simple one, if only a few pixels are drawn, remember to test!

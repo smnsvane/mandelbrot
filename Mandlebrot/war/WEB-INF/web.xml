@@ -12,7 +12,7 @@
 
 	<servlet-mapping>
 		<servlet-name>colorGridServlet</servlet-name>
-		<url-pattern>/mandelbrot/colorGrid</url-pattern>
+		<url-pattern>/mandelbrot/colorgrid</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

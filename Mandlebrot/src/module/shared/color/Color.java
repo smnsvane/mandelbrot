@@ -10,11 +10,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class Color implements IsSerializable {
 
 	public int r, g, b;
-	public Color(int red, int green, int blue) {
-		r = red;
-		g = green;
-		b = blue;
-	}
+	public Color(int red, int green, int blue) { r = red; g = green; b = blue; }
+
+	// to keep GWT-RPC happy
+	@SuppressWarnings("unused")
+	private Color() {}
 
 	public CssColor toCssColor() {
 		return CssColor.make("rgb("+r+", "+g+", "+b+")");

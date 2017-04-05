@@ -2,6 +2,7 @@ package module.server;
 
 import module.client.ColorGridService;
 import module.shared.ColorGrid;
+import module.shared.Engine;
 import module.shared.FractalProperties;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -10,8 +11,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class ColorGridServiceImpl extends RemoteServiceServlet implements ColorGridService {
 
 	@Override
-	public ColorGrid calculateColorGrid(FractalProperties prop) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public ColorGrid calculateColorGrid(int width, int height, FractalProperties prop) throws IllegalArgumentException {
+		ColorGrid grid = new Engine().calculateFractal(width, height, prop);
+		return grid;
 	}
 }

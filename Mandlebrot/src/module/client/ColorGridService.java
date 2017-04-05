@@ -9,5 +9,5 @@ import module.shared.FractalProperties;
 @RemoteServiceRelativePath("colorgrid")
 public interface ColorGridService extends RemoteService {
 
-	ColorGrid calculateColorGrid(FractalProperties prop) throws IllegalArgumentException;
+	ColorGrid calculateColorGrid(int width, int height, FractalProperties prop) throws IllegalArgumentException;
 }
