@@ -9,6 +9,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -53,19 +54,19 @@ public class CanvasSetup implements EntryPoint {
 		canvas.setCoordinateSpaceHeight(CANVAS_HEIGHT_IN_PX);
 
 		// layout setup
+		HorizontalPanel hPanel = new HorizontalPanel();
 		VerticalPanel vPanel = new VerticalPanel();
-		FlowPanel div = new FlowPanel();
 		Button classicMandelbrotButton = new Button("Classic Mandelbrot",
 				new FractalButtonClick(this, FractalProperties.classicMandelbrot()));
 		Button seahorseVallyButton = new Button("Seahorse Vally",
 				new FractalButtonClick(this, FractalProperties.seahorseVally()));
 
 		// layout assembly
-		div.add(classicMandelbrotButton);
-		div.add(seahorseVallyButton);
-		vPanel.add(div);
-		vPanel.add(canvas);
-		root.add(vPanel);
+		vPanel.add(classicMandelbrotButton);
+		vPanel.add(seahorseVallyButton);
+		hPanel.add(vPanel);
+		hPanel.add(canvas);
+		root.add(hPanel);
 	}
 
 	public ColorGrid clientCalculateFractal(FractalProperties prop) {

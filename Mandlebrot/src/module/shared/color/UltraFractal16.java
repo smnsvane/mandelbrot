@@ -34,8 +34,11 @@ public class UltraFractal16 implements AxialColorGradient {
 	@Override
 	public Color getColor(int colorIndex, int length) {
 
-		int i = colorIndex % colors.size();
-		Color c = colors.get(i);
-		return c;
+		if (colorIndex < length) {
+			int i = colorIndex % colors.size();
+			Color c = colors.get(i);
+			return c;
+		}
+		return Color.black;
 	}
 }

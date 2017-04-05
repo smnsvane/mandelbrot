@@ -56,7 +56,7 @@ public class FractalProperties implements IsSerializable {
 		prop.fractalX0 = -2.2f;
 		prop.fractalY0 = -1.3f;
 		prop.epsilon = 0.0035f;
-		prop.maxIterations = 32;
+		prop.maxIterations = 2048;
 		prop.gradient = new UltraFractal16();
 		prop.z0 = new Complex(0, 0);
 		prop.k = 2;
@@ -68,7 +68,7 @@ public class FractalProperties implements IsSerializable {
 		prop.fractalX0 = -1.1f;
 		prop.fractalY0 = -0.4f;
 		prop.epsilon = 0.0005f;
-		prop.maxIterations = 32;
+		prop.maxIterations = 2048;
 		prop.gradient = new GradientOne();
 		prop.z0 = new Complex(0, 0);
 		prop.k = 2;

@@ -25,6 +25,7 @@ public class FractalButtonClick implements ClickHandler {
 	public void onClick(ClickEvent event) {
 
 		if (setup.serverSideCalc) {
+			logger.info("requested server calculation");
 			long start = System.currentTimeMillis();
 			setup.colorGridService.calculateColorGrid(
 					CanvasSetup.CANVAS_WIDTH_IN_PX, CanvasSetup.CANVAS_HEIGHT_IN_PX, prop,
