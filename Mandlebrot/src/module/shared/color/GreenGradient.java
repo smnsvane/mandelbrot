@@ -2,9 +2,7 @@
  * ripped off asker's algorithm
  * from http://stackoverflow.com/questions/16500656/which-color-gradient-is-used-to-color-mandelbrot-in-wikipedia
  */
-package module.client.color;
-
-import module.shared.Color;
+package module.shared.color;
 
 public class GreenGradient implements AxialColorGradient {
 

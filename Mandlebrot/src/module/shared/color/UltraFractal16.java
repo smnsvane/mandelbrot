@@ -2,11 +2,9 @@
  * ripped off from responder in
  * http://stackoverflow.com/questions/16500656/which-color-gradient-is-used-to-color-mandelbrot-in-wikipedia
  */
-package module.client.color;
+package module.shared.color;
 
 import java.util.ArrayList;
-
-import module.shared.Color;
 
 public class UltraFractal16 implements AxialColorGradient {
 

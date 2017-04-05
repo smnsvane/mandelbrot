@@ -1,6 +1,4 @@
-package module.client.color;
-
-import module.shared.Color;
+package module.shared.color;
 
 public class LinearGreenGradient implements AxialColorGradient {
 

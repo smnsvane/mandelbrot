@@ -1,8 +1,6 @@
-package module.client.color;
+package module.shared.color;
 
 import java.util.ArrayList;
-
-import module.shared.Color;
 
 public abstract class CustomGradient implements AxialColorGradient {
 

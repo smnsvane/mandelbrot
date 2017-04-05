@@ -2,11 +2,12 @@
  * I made this class because CssColor is not easily stored in collections
  */
 
-package module.shared;
+package module.shared.color;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Color {
+public class Color implements IsSerializable {
 
 	public int r, g, b;
 	public Color(int red, int green, int blue) {

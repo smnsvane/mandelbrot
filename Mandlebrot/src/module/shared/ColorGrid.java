@@ -2,6 +2,8 @@ package module.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import module.shared.color.Color;
+
 public class ColorGrid implements IsSerializable {
 
 	public Color[][] grid;

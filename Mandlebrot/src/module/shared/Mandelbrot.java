@@ -1,14 +1,13 @@
 /**
  * see http://mathworld.wolfram.com/MandelbrotSet.html
  */
-package module.client;
+package module.shared;
 
 import java.util.logging.Logger;
 
-import module.client.color.AxialColorGradient;
-import module.client.color.GradientOne;
-import module.shared.Color;
-import module.shared.ColorGrid;
+import module.shared.color.AxialColorGradient;
+import module.shared.color.Color;
+import module.shared.color.GradientOne;
 
 public class Mandelbrot {
 
@@ -17,7 +16,7 @@ public class Mandelbrot {
 	private float coordStartX = -1.1f; // canvas x = 0 will correspond to this coordinate x, default -2.2f
 	private float coordStartY = -0.4f; // canvas y = 0 will correspond to this coordinate y, default -1.3f
 	private float epsilon = 0.0005f; // The step size across the X and Y axis (zoom level), default 0.0035f
-	private int maxIterations = 2048; // increasing this will give you a more detailed fractal, default 256
+	private int maxIterations = 16; // increasing this will give you a more detailed fractal, default 256
 	private AxialColorGradient colors = new GradientOne(); // the color scheme used, default UltraColor
 	private Complex z0 = new Complex(0, 0); // the initial z value used, default (0, 0i)
 	private int k = 2; // for classical mandelbrot set use '2', default 2

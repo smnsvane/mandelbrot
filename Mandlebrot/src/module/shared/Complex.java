@@ -1,6 +1,8 @@
-package module.client;
+package module.shared;
 
-public class Complex {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Complex implements IsSerializable {
 
 	/**
 	 * real part of the complex number

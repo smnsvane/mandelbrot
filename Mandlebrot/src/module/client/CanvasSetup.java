@@ -9,8 +9,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import module.shared.Color;
 import module.shared.ColorGrid;
+import module.shared.Mandelbrot;
+import module.shared.color.Color;
 
 public class CanvasSetup implements EntryPoint {
 

@@ -1,8 +1,8 @@
-package module.client.color;
+package module.shared.color;
 
-import module.shared.Color;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public interface AxialColorGradient {
+public interface AxialColorGradient extends IsSerializable {
 
 	/**
 	 * Call to pick a color from the axial gradient (linear gradient)
