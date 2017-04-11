@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Mandelbrot build and deploy" default="war-deploy">
+
+	<target name="war-deploy" depends="war, deploy"/>
+
+	<!-- contains URLs and credentials for tomcat-->
+	<property file="build.properties"/>
+
+	<property name="warfile.url" location="${basedir}/${app.name}.war"/>
+
+	<tstamp prefix="build-info">
+		<format property="current-date" pattern="d-MMMM-yyyy" locale="dk"/>
+		<format property="current-time" pattern="hh:mm:ss a z" locale="dk"/>
+	</tstamp>
+
+	<path id="catalina.ant.classpath">
+		<fileset dir="${tomcat.root}/lib">
+	        <include name="catalina-ant.jar"/>
+	        <include name="tomcat-util.jar"/>
+	    </fileset>
+	</path>
+
+	<taskdef name="start" classname="org.apache.catalina.ant.StartTask">
+		<classpath refid="catalina.ant.classpath"/>
+	</taskdef>
+	<taskdef name="stop" classname="org.apache.catalina.ant.StopTask">
+		<classpath refid="catalina.ant.classpath"/>
+	</taskdef>
+	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask">
+		<classpath refid="catalina.ant.classpath"/>
+	</taskdef>
+	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask">
+		<classpath refid="catalina.ant.classpath"/>
+	</taskdef>
+
+	<target name="start" description="start application in tomcat">
+		<start url="${tomcat.manager.url}" username="${tomcat.manager.username}"
+			password="${tomcat.manager.password}" path="${app.path}"/>
+	</target>
+
+	<target name="stop" description="stop application in tomcat">
+		<stop url="${tomcat.manager.url}" username="${tomcat.manager.username}"
+			password="${tomcat.manager.password}" path="${app.path}"/>
+	</target>
+
+	<target name="undeploy" description="undeploy from tomcat">
+		<undeploy failonerror="no" url="${tomcat.manager.url}"
+			username="${tomcat.manager.username}"
+			password="${tomcat.manager.password}"
+			path="${app.path}"/>
+	</target>
+
+	<target name="deploy" description="deploy to tomcat">
+		<echo>deploying from client</echo>
+		<deploy url="${tomcat.manager.url}"
+			username="${tomcat.manager.username}"
+			password="${tomcat.manager.password}"
+			path="${app.path}"
+			war="${warfile.url}"
+			update="true"/>
+	</target>
+
+	<target name="gwt-compile">
+		
+	</target>
+
+	<target name="war">
+		<delete file="${warfile.url}"/>
+		<war warfile="${warfile.url}" webxml="war/WEB-INF/web.xml">
+			<classes dir="src"/>
+			<fileset dir="war">
+				<exclude name="WEB-INF/web.xml"/> <!-- Need to exclude it since webxml is an attribute of the war tag above -->
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${builder}"/>
+				<attribute name="Built-On" value="${build-info.current-date}"/>
+				<attribute name="Built-At" value="${build-info.current-time}"/>
+			</manifest>
+		</war>
+	</target>
+
+	<target name="mail">
+		<mail mailhost="smtp.gmail.com" mailport="1025"
+			from="coldagebot@gmail.com"
+			tolist="smnsvane@gmail.com"
+			subject="${warfile.url} was uploaded to the server"
+			message="Test mail content"/>
+	</target>
+
+</project>
